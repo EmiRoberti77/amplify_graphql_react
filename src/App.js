@@ -3,6 +3,7 @@ import './App.css';
 import { useEffect } from 'react';
 import config from './aws-exports';
 import { getBlog } from './graphql/queries';
+import { API } from 'aws-amplify';
 
 function App() {
   useEffect(() => {
