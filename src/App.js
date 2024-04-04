@@ -3,27 +3,19 @@ import './App.css';
 import { useEffect } from 'react';
 import config from './aws-exports';
 import { getBlog } from './graphql/queries';
-import { API } from 'aws-amplify';
-
+import { generateClient } from 'aws-amplify/api';
+const client = new generateClient();
 function App() {
   useEffect(() => {
     const pullData = async (id) => {
-      console.log('in pullData', id);
-      let data = await fetch(config.aws_appsync_graphqlEndpoint, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          Accept: 'application/json',
-          'X-Api-key': config.aws_appsync_apiKey,
+      const data = await client.graphql({
+        query: getBlog,
+        variables: {
+          id: '12',
         },
-        body: JSON.stringify({
-          query: getBlog,
-          variables: {
-            id,
-          },
-        }),
       });
-      console.log(await data.json());
+
+      console.log(data);
     };
 
     pullData('12');
